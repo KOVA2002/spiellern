@@ -1,1 +1,3 @@
-The Spiellern project has been started!
+This is a video game project aimed at helping users learn German in an entertaining format.
+
+See more details at: https://docs.google.com/document/d/1367hQv1uDX_DhJuOz_YD1clXmWuiydGrJK6O3c3dEjE/edit
