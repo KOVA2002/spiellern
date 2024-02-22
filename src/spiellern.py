@@ -1,5 +1,6 @@
 # TODO: Add classes: Cloud, TaskBoard, Plank, LearningData
 # TODO: Refactor classes: Hero
+# TODO: Add jumping for Hero
 # TODO: Update Settings
 # TODO: Add statistics
 
