@@ -19,7 +19,7 @@ class Hero:
         self.rect = self.image[0].get_rect()
 
         # Every new hero starts from the specified coordinates
-        self.rect.midbottom = (100, 200)
+        self.rect.midbottom = self.screen_rect.midbottom
 
         self.image_update_counter = 0
 

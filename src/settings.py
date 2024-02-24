@@ -1,3 +1,4 @@
+import pygame
 from pygame.color import THECOLORS
 
 
@@ -8,5 +9,6 @@ class Settings:
         # screen settings
         self.screen_width = 1200
         self.screen_height = 800
+        self.bg_image = pygame.image.load('img/bg_images/bg_mountains.jpg')
         self.bg_color = THECOLORS['skyblue']
         self.caption = "Spiellern"

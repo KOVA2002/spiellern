@@ -1,4 +1,4 @@
-# TODO: Add classes: Cloud, TaskBoard, Plank, LearningData
+# TODO: Add classes: Cloud, TaskBoard, LearningData
 # TODO: Refactor classes: Hero
 # TODO: Add jumping for Hero
 # TODO: Update Settings
@@ -9,7 +9,7 @@ import sys
 from sl_functions import update_screen
 from settings import Settings
 from hero import Hero
-
+from fixed_object import FixedObject
 
 class Spiellern:
     """Game class"""
@@ -18,10 +18,21 @@ class Spiellern:
         """Create game resources"""
         pygame.init()
 
+        # add screen and setting objects
+        self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
         self.settings = Settings()
-        self.screen = pygame.display.set_mode((self.settings.screen_width, self.settings.screen_height))
-        self.hero = Hero(self)
         pygame.display.set_caption(self.settings.caption)
+
+        # adjust settings
+        self.settings.screen_width = self.screen.get_rect().width
+        self.settings.screen_height = self.screen.get_rect().height
+        self.settings.bg_image = pygame.transform.scale(self.settings.bg_image, (self.settings.screen_width, self.settings.screen_height))
+
+        # add hero and fixed objects
+        self.hero = Hero(self)
+        self.rock = FixedObject(self, 'rock')
+
+        # add clock to maintain the number of frames per second
         self.clock = pygame.time.Clock()
 
     def run_game(self):
@@ -40,7 +51,7 @@ class Spiellern:
         """Checking mouse/keyboard events"""
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT:
+            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                 sys.exit()
 
             elif event.type == pygame.KEYDOWN:
