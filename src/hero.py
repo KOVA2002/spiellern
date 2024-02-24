@@ -12,8 +12,6 @@ class Hero:
         self.run_right = [pygame.image.load(f'img/hero/hero_runs_r{i}.png') for i in range(6)]
         self.run_left = [pygame.image.load(f'img/hero/hero_runs_l{i}.png') for i in range(6)]
 
-        #print(len(self.run_right))
-        #print(len(self.run_left))
         # Load hero image and make a rectangular out of it
         self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'r0')
         self.rect = self.image[0].get_rect()
@@ -21,7 +19,11 @@ class Hero:
         # Every new hero starts from the specified coordinates
         self.rect.midbottom = self.screen_rect.midbottom
 
-        self.image_update_counter = 0
+        # adjust image update
+        self.img_upd_counter = 0
+        self.img_upd_rate = game.settings.hero_img_upd_rate
+
+        self.running_speed = game.settings.hero_running_speed
 
         # Flag of movement
         self.moving_right = False
@@ -31,8 +33,16 @@ class Hero:
 
     def _update_image(self):
 
+        # first, check if the hero stops moving
+        if self.stop_moving_right:
+            self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'r0')
+            self.stop_moving_right = False
+        elif self.stop_moving_left:
+            self.image = (pygame.image.load('img/hero/hero_stands_l1.png'), 'l0')
+            self.stop_moving_left = False
+
         # update image for running right
-        if self.moving_right:
+        elif self.moving_right:
             if self.image[1] == 'r0':
                 self.image = (self.run_right[1], 'r1')
             elif self.image[1] == 'r1':
@@ -45,6 +55,8 @@ class Hero:
                 self.image = (self.run_right[5], 'r5')
             else:
                 self.image = (self.run_right[0], 'r0')
+
+
 
         # update image for running left
         elif self.moving_left:
@@ -60,23 +72,22 @@ class Hero:
                 self.image = (self.run_left[5], 'l5')
             else:
                 self.image = (self.run_left[0], 'l0')
-        elif self.stop_moving_right:
-            self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'r0')
-            self.stop_moving_right = False
-        elif self.stop_moving_left:
-            self.image = (pygame.image.load('img/hero/hero_stands_l1.png'), 'l0')
-            self.stop_moving_left = False
+
 
     def update(self):
         """Update hero's position"""
-        if self.moving_right:
-            self.rect.x += 3
-            self.image_update_counter = (self.image_update_counter + 1) % 8
-        if self.moving_left:
-            self.rect.x -= 3
-            self.image_update_counter = (self.image_update_counter + 1) % 8
-        if self.image_update_counter == 7 or self.stop_moving_right or self.stop_moving_left:
+        if self.moving_left and self.moving_right:
+            self.stop_moving_right = True
+        elif self.moving_right:
+            self.rect.x += self.running_speed
+            self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
+        elif self.moving_left:
+            self.rect.x -= self.running_speed
+            self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
+        if self.img_upd_counter == self.img_upd_rate-1 \
+                or self.stop_moving_right or self.stop_moving_left:
             self._update_image()
+
 
     def blitme(self):
         """Draw hero in the current position"""

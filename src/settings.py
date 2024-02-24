@@ -12,3 +12,7 @@ class Settings:
         self.bg_image = pygame.image.load('img/bg_images/bg_mountains.jpg')
         self.bg_color = THECOLORS['skyblue']
         self.caption = "Spiellern"
+
+        # hero settings
+        self.hero_img_upd_rate = 8
+        self.hero_running_speed = 3

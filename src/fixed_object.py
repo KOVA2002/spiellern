@@ -17,7 +17,6 @@ class FixedObject:
             print('Error: ', e)
         self.rect = self.image.get_rect()
         # Every new hero starts from the specified coordinates
-        print(dir(self.screen_rect))
         self.rect.midbottom = self.screen_rect.midbottom
         self.rect.left = self.screen_rect.x
 
