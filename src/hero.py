@@ -13,7 +13,7 @@ class Hero:
         self.run_left = [pygame.image.load(f'img/hero/hero_runs_l{i}.png') for i in range(6)]
 
         # Load hero image and make a rectangular out of it
-        self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'r0')
+        self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'stands_r0')
         self.rect = self.image[0].get_rect()
 
         # Every new hero starts from the specified coordinates
@@ -33,46 +33,30 @@ class Hero:
 
     def _update_image(self):
 
+        img_type = self.image[1][0:-1]
+        img_number = int(self.image[1][-1])
+
         # first, check if the hero stops moving
         if self.stop_moving_right:
-            self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'r0')
+            self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'stands_r0')
             self.stop_moving_right = False
         elif self.stop_moving_left:
-            self.image = (pygame.image.load('img/hero/hero_stands_l1.png'), 'l0')
+            self.image = (pygame.image.load('img/hero/hero_stands_l1.png'), 'stands_l0')
             self.stop_moving_left = False
 
         # update image for running right
         elif self.moving_right:
-            if self.image[1] == 'r0':
-                self.image = (self.run_right[1], 'r1')
-            elif self.image[1] == 'r1':
-                self.image = (self.run_right[2], 'r2')
-            elif self.image[1] == 'r2':
-                self.image = (self.run_right[3], 'r3')
-            elif self.image[1] == 'r3':
-                self.image = (self.run_right[4], 'r4')
-            elif self.image[1] == 'r4':
-                self.image = (self.run_right[5], 'r5')
+            if img_type == 'runs_r' and img_number < 5:
+                self.image = (self.run_right[img_number+1], 'runs_r'+str(img_number+1))
             else:
-                self.image = (self.run_right[0], 'r0')
-
-
+                self.image = (self.run_right[0], 'runs_r0')
 
         # update image for running left
         elif self.moving_left:
-            if self.image[1] == 'l0':
-                self.image = (self.run_left[1], 'l1')
-            elif self.image[1] == 'l1':
-                self.image = (self.run_left[2], 'l2')
-            elif self.image[1] == 'l2':
-                self.image = (self.run_left[3], 'l3')
-            elif self.image[1] == 'l3':
-                self.image = (self.run_left[4], 'l4')
-            elif self.image[1] == 'l4':
-                self.image = (self.run_left[5], 'l5')
+            if img_type == 'runs_l' and img_number < 5:
+                self.image = (self.run_left[img_number + 1], 'runs_l' + str(img_number + 1))
             else:
-                self.image = (self.run_left[0], 'l0')
-
+                self.image = (self.run_left[0], 'runs_l0')
 
     def update(self):
         """Update hero's position"""

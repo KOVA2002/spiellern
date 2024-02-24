@@ -16,6 +16,7 @@ class FixedObject:
         except ValueError as e:
             print('Error: ', e)
         self.rect = self.image.get_rect()
+
         # Every new hero starts from the specified coordinates
         self.rect.midbottom = self.screen_rect.midbottom
         self.rect.left = self.screen_rect.x
