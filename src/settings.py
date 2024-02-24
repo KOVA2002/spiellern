@@ -16,3 +16,4 @@ class Settings:
         # hero settings
         self.hero_img_upd_rate = 8
         self.hero_running_speed = 3
+        self.hero_falling_speed = 3.0

@@ -1,4 +1,5 @@
 import pygame
+from math import floor
 
 
 class Hero:
@@ -17,7 +18,8 @@ class Hero:
         self.rect = self.image[0].get_rect()
 
         # Every new hero starts from the specified coordinates
-        self.rect.midbottom = self.screen_rect.midbottom
+        self.rect.left = self.screen_rect.left
+        self.rect.y = 300
 
         # adjust image update
         self.img_upd_counter = 0
@@ -25,19 +27,34 @@ class Hero:
 
         self.running_speed = game.settings.hero_running_speed
 
-        # Flag of movement
+        # Flags of left/right movement
         self.moving_right = False
         self.moving_left = False
         self.stop_moving_right = False
         self.stop_moving_left = False
+
+        # falling
+        self.falling = False
+        self.falling_speed = game.settings.hero_falling_speed
+        self.fallen_wait = 0
+        self.platform = None
 
     def _update_image(self):
 
         img_type = self.image[1][0:-1]
         img_number = int(self.image[1][-1])
 
-        # first, check if the hero stops moving
-        if self.stop_moving_right:
+        # first, check if hero is falling
+        if self.fallen_wait > 0:
+            self.image = (pygame.image.load('img/hero/hero_falls_r3.png'), 'falls_r3')
+            self.fallen_wait -= 1
+        elif self.falling:
+            if img_type.endswith('r'):
+                self.image = (pygame.image.load('img/hero/hero_falls_r1.png'), 'falls_r1')
+            else:
+                self.image = (pygame.image.load('img/hero/hero_falls_l1.png'), 'falls_l1')
+        # then, check if the hero stops moving left or right
+        elif self.stop_moving_right:
             self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'stands_r0')
             self.stop_moving_right = False
         elif self.stop_moving_left:
@@ -60,7 +77,18 @@ class Hero:
 
     def update(self):
         """Update hero's position"""
-        if self.moving_left and self.moving_right:
+        # falling
+        if not self.platform and self.rect.bottom > self.screen_rect.bottom - 6:
+            self.platform = 'screen_bottom'
+            self.falling = False
+            self.fallen_wait = 12
+            self.falling_speed = 3
+        if not self.platform:
+            self.falling = True
+            self.rect.y += floor(self.falling_speed)
+            self.falling_speed += 0.15
+        # movement
+        elif self.moving_left and self.moving_right:
             self.stop_moving_right = True
         elif self.moving_right:
             self.rect.x += self.running_speed
@@ -69,7 +97,7 @@ class Hero:
             self.rect.x -= self.running_speed
             self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
         if self.img_upd_counter == self.img_upd_rate-1 \
-                or self.stop_moving_right or self.stop_moving_left:
+                or self.stop_moving_right or self.stop_moving_left or self.falling or self.fallen_wait > 0:
             self._update_image()
 
 
