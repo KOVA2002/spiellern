@@ -1,7 +1,7 @@
 # TODO: Add classes: Cloud, TaskBoard, LearningData
 # TODO: Refactor classes: Hero
 # TODO: Add jumping for Hero
-# TODO: Update Settings
+# TODO: Implement 'find_surface_below' in sl_functions
 # TODO: Add statistics
 
 import pygame
@@ -10,6 +10,7 @@ from sl_functions import update_screen
 from settings import Settings
 from hero import Hero
 from fixed_object import FixedObject
+
 
 class Spiellern:
     """Game class"""
@@ -51,7 +52,8 @@ class Spiellern:
         """Checking mouse/keyboard events"""
 
         for event in pygame.event.get():
-            if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
+            if event.type == pygame.QUIT or \
+             (event.type == pygame.KEYDOWN and event.key in (pygame.K_q, pygame.K_ESCAPE)):
                 sys.exit()
 
             elif event.type == pygame.KEYDOWN:

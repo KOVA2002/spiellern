@@ -17,3 +17,5 @@ class Settings:
         self.hero_img_upd_rate = 8
         self.hero_running_speed = 3
         self.hero_falling_speed = 3.0
+        self.hero_falling_acceleration_rate = 0.15
+        self.hero_fallen_waiting_frames = 12
