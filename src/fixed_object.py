@@ -28,6 +28,8 @@ class FixedObject:
 
         # Adding surface object
         self.surface = Surface((self.rect.x, self.rect.y+self.surface_depth), (self.rect.width, 10), self)
+        # adding the newly created object to the list containing all surfaces of the game
+        game.all_surfaces.append(self.surface)
 
     def blitme(self):
         """Draw object"""

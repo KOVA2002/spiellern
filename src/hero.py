@@ -1,6 +1,6 @@
 import pygame
 from math import floor
-from sl_functions import find_surface_below
+from sl_functions import find_surface_below, check_platform
 
 
 class Hero:
@@ -40,7 +40,16 @@ class Hero:
         self.falling_acceleration_rate = game.settings.hero_falling_acceleration_rate
         self.fallen_waiting_frames = game.settings.hero_fallen_waiting_frames
         self.fallen_wait = 0
+        self.all_surfaces = game.all_surfaces
         self.platform = None
+        self.fall_margin = game.settings.hero_platform_fall_margin
+        self.left_right_shift_in_air = game.settings.hero_left_right_shift_in_air
+
+        # jumping
+        self.jumping = False
+        self.jumping_frames = 0
+        self.jumping_frames_default = game.settings.hero_jumping_frames_default
+        self.jumping_vertical_velocity = game.settings.hero_jumping_vertical_velocity
 
     def _update_image(self):
 
@@ -57,6 +66,12 @@ class Hero:
                 self.image = (pygame.image.load('img/hero/hero_falls_r1.png'), 'falls_r1')
             else:
                 self.image = (pygame.image.load('img/hero/hero_falls_l1.png'), 'falls_l1')
+
+        # jumping
+        elif self.jumping:
+            #TODO: update image according to 'jumping_frames' variable
+            pass
+
         # then, check if the hero stops moving left or right
         elif self.stop_moving_right:
             self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'stands_r0')
@@ -81,22 +96,34 @@ class Hero:
 
     def update(self):
         """Update hero's position"""
-        # updating falling
-        if not self.platform and self.rect.bottom > self.screen_rect.bottom - 6:
-            self.platform = 'screen_bottom'
-            self.falling = False
-            self.fallen_wait = self.fallen_waiting_frames
-            self.falling_speed = 3
-        elif not self.platform:
-            surface = find_surface_below(self)
-            if surface:
-                self.platform = surface
-                self.fallen_wait = self.fallen_waiting_frames
-                self.falling_speed = 3
-        if not self.platform:
+        # update platform information
+        if not self.jumping:
+            if not self.platform:
+                find_surface_below(self)
+            else:
+                check_platform(self)
+        # falling
+        if not self.platform and not self.jumping:
             self.falling = True
             self.rect.y += floor(self.falling_speed)
             self.falling_speed += self.falling_acceleration_rate
+            if self.moving_left:
+                self.rect.x -= self.left_right_shift_in_air
+            if self.moving_right:
+                self.rect.x += self.left_right_shift_in_air
+        # jumping
+        elif self.jumping:
+            if self.jumping_frames == 0:
+                self.jumping_frames = self.jumping_frames_default
+                self.platform = None
+            self.rect.y -= self.jumping_vertical_velocity
+            if self.moving_left:
+                self.rect.x -= self.left_right_shift_in_air
+            if self.moving_right:
+                self.rect.x += self.left_right_shift_in_air
+            self.jumping_frames -= 1
+            if self.jumping_frames == 0:
+                self.jumping = None
         # updating left/right movement flags
         elif self.moving_left and self.moving_right:
             self.stop_moving_right = True

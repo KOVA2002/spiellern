@@ -1,7 +1,6 @@
 # TODO: Add classes: Cloud, TaskBoard, LearningData
-# TODO: Refactor classes: Hero
-# TODO: Add jumping for Hero
-# TODO: Implement 'find_surface_below' in sl_functions
+# TODO: Add images for jumping
+# TODO: Restrict hero from moving out of the screen
 # TODO: Add statistics
 
 import pygame
@@ -10,6 +9,7 @@ from sl_functions import update_screen
 from settings import Settings
 from hero import Hero
 from fixed_object import FixedObject
+from surface import Surface
 
 
 class Spiellern:
@@ -28,6 +28,13 @@ class Spiellern:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         self.settings.bg_image = pygame.transform.scale(self.settings.bg_image, (self.settings.screen_width, self.settings.screen_height))
+
+        # introducing a list for storing all surfaces in the game
+        self.all_surfaces = []
+
+        # add bottom surface
+        self.surface = Surface((0, 0+self.settings.screen_height-10), (self.settings.screen_width, 10), self)
+        self.all_surfaces.append(self.surface)
 
         # add hero and fixed objects
         self.hero = Hero(self)
@@ -63,6 +70,9 @@ class Spiellern:
                 elif event.key == pygame.K_LEFT:
                     # Move hero to the left
                     self.hero.moving_left = True
+                elif event.key == pygame.K_UP:
+                    if self.hero.platform:
+                        self.hero.jumping = True
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_RIGHT:

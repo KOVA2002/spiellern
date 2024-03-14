@@ -19,3 +19,7 @@ class Settings:
         self.hero_falling_speed = 3.0
         self.hero_falling_acceleration_rate = 0.15
         self.hero_fallen_waiting_frames = 12
+        self.hero_platform_fall_margin = 25
+        self.hero_jumping_frames_default = 30
+        self.hero_jumping_vertical_velocity = 5
+        self.hero_left_right_shift_in_air = 3
