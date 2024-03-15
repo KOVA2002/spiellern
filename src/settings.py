@@ -23,3 +23,7 @@ class Settings:
         self.hero_jumping_frames_default = 30
         self.hero_jumping_vertical_velocity = 5
         self.hero_left_right_shift_in_air = 3
+        self.hero_falling_middle_speed_from = 4
+        self.hero_falling_high_speed_from = 8
+        self.hero_fallen_middle_waiting_from = 8
+        self.hero_fallen_long_waiting_from = 10

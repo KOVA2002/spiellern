@@ -45,6 +45,10 @@ class Hero:
         self.platform = None
         self.fall_margin = game.settings.hero_platform_fall_margin
         self.left_right_shift_in_air = game.settings.hero_left_right_shift_in_air
+        self.falling_middle_speed_from = game.settings.hero_falling_middle_speed_from
+        self.falling_high_speed_from = game.settings.hero_falling_high_speed_from
+        self.fallen_middle_waiting_from = game.settings.hero_fallen_middle_waiting_from
+        self.fallen_long_waiting_from = game.settings.hero_fallen_long_waiting_from
 
         # jumping
         self.jumping = False
@@ -52,91 +56,80 @@ class Hero:
         self.jumping_frames_default = game.settings.hero_jumping_frames_default
         self.jumping_vertical_velocity = game.settings.hero_jumping_vertical_velocity
 
+    def _get_image_type(self, img_direction, base, number) -> str:
+        """Returns image type of proper direction"""
+
+        image_type = ''
+        if self.moving_right:
+            image_type = base+'_r'+number
+        elif self.moving_left:
+            image_type = base+'_l'+number
+        elif img_direction == 'r':
+            image_type = base+'_r'+number
+        else:
+            image_type = base+'_l'+number
+        return image_type
+
     def _update_image(self):
 
         img_type = self.image[1][0:-1]
         img_number = int(self.image[1][-1])
         img_direction = img_type[-1]
+        new_img_type = None
 
         # first, check if hero has already fallen
         if self.fallen_wait > 0:
             if img_direction == 'r':
-                if self.reached_falling_speed > 10:
-                    self.image = (pygame.image.load('img/hero/hero_falls_r3.png'), 'falls_r3')
-                elif self.reached_falling_speed > 8:
-                    self.image = (pygame.image.load('img/hero/hero_falls_r2.png'), 'falls_r2')
+                if self.reached_falling_speed > self.fallen_long_waiting_from:
+                    new_img_type = 'falls_r3'
+                elif self.reached_falling_speed > self.fallen_middle_waiting_from:
+                    new_img_type = 'falls_r2'
                 else:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_r3.png'), 'jumps_r3')
+                    new_img_type = 'jumps_r3'
             else:
-                if self.reached_falling_speed > 10:
-                    self.image = (pygame.image.load('img/hero/hero_falls_l3.png'), 'falls_l3')
-                elif self.reached_falling_speed > 8:
-                    self.image = (pygame.image.load('img/hero/hero_falls_l2.png'), 'falls_l2')
+                if self.reached_falling_speed > self.fallen_long_waiting_from:
+                    new_img_type = 'falls_l3'
+                elif self.reached_falling_speed > self.fallen_middle_waiting_from:
+                    new_img_type = 'falls_l2'
                 else:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_l3.png'), 'jumps_l3')
+                    new_img_type = 'jumps_l3'
             self.fallen_wait -= 1
         # check if hero is falling
         elif self.falling:
-            if self.falling_speed > 8:
-                if self.moving_right:
-                    self.image = (pygame.image.load('img/hero/hero_falls_r1.png'), 'falls_r1')
-                elif self.moving_left:
-                    self.image = (pygame.image.load('img/hero/hero_falls_l1.png'), 'falls_l1')
-                elif img_direction == 'r':
-                    self.image = (pygame.image.load('img/hero/hero_falls_r1.png'), 'falls_r1')
-                else:
-                    self.image = (pygame.image.load('img/hero/hero_falls_l1.png'), 'falls_l1')
-            elif self.falling_speed > 4:
-                if self.moving_right:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_r3.png'), 'jumps_r3')
-                elif self.moving_left:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_l3.png'), 'jumps_l3')
-                elif img_direction == 'r':
-                    self.image = (pygame.image.load('img/hero/hero_jumps_r3.png'), 'jumps_r3')
-                else:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_l3.png'), 'jumps_l3')
+            if self.falling_speed > self.falling_high_speed_from:
+                new_img_type = self._get_image_type(img_direction, 'falls', '1')
+            elif self.falling_speed > self.falling_middle_speed_from:
+                new_img_type = self._get_image_type(img_direction, 'jumps', '3')
             else:
-                if self.moving_right:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_r2.png'), 'jumps_r2')
-                elif self.moving_left:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_l2.png'), 'jumps_l2')
-                elif img_direction == 'r':
-                    self.image = (pygame.image.load('img/hero/hero_jumps_r2.png'), 'jumps_r2')
-                else:
-                    self.image = (pygame.image.load('img/hero/hero_jumps_l2.png'), 'jumps_l2')
+                new_img_type = self._get_image_type(img_direction, 'jumps', '2')
 
         # jumping
         elif self.jumping:
-            if self.moving_right:
-                self.image = (pygame.image.load('img/hero/hero_jumps_r1.png'), 'jumps_r1')
-            elif self.moving_left:
-                self.image = (pygame.image.load('img/hero/hero_jumps_l1.png'), 'jumps_l1')
-            elif img_direction == 'r':
-                self.image = (pygame.image.load('img/hero/hero_jumps_r1.png'), 'jumps_r1')
-            else:
-                self.image = (pygame.image.load('img/hero/hero_jumps_l1.png'), 'jumps_l1')
+            new_img_type = self._get_image_type(img_direction, 'jumps', '1')
 
         # then, check if the hero stops moving left or right
         elif self.stop_moving_right:
-            self.image = (pygame.image.load('img/hero/hero_stands_r1.png'), 'stands_r0')
+            new_img_type = 'stands_r1'
             self.stop_moving_right = False
         elif self.stop_moving_left:
-            self.image = (pygame.image.load('img/hero/hero_stands_l1.png'), 'stands_l0')
+            new_img_type = 'stands_l1'
             self.stop_moving_left = False
 
         # update image for running right
         elif self.moving_right:
             if img_type == 'runs_r' and img_number < 5:
-                self.image = (self.img_run_r[img_number+1], 'runs_r'+str(img_number+1))
+                new_img_type = 'runs_r'+str(img_number+1)
             else:
-                self.image = (self.img_run_r[0], 'runs_r0')
+                new_img_type = 'runs_r0'
 
         # update image for running left
         elif self.moving_left:
             if img_type == 'runs_l' and img_number < 5:
-                self.image = (self.img_run_l[img_number + 1], 'runs_l' + str(img_number + 1))
+                new_img_type = 'runs_l' + str(img_number + 1)
             else:
-                self.image = (self.img_run_l[0], 'runs_l0')
+                new_img_type = 'runs_l0'
+        if new_img_type:
+            self.image = (pygame.image.load(f'img/hero/hero_{new_img_type}.png'), new_img_type)
 
     def update(self):
         """Update hero's position"""
