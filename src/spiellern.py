@@ -1,5 +1,5 @@
 # TODO: Add classes: Cloud, TaskBoard, LearningData
-# TODO: Add images for jumping
+# TODO: Refactor _update_image in Hero
 # TODO: Restrict hero from moving out of the screen
 # TODO: Add statistics
 
