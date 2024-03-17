@@ -17,7 +17,8 @@ def find_surface_below(hero) -> None:
 
 def check_platform(hero) -> None:
 
-    if hero.rect.right-hero.fall_margin < hero.platform.rect.left or hero.rect.left+hero.fall_margin > hero.platform.rect.right:
+    if hero.rect.right-hero.fall_margin < hero.platform.rect.left \
+            or hero.rect.left+hero.fall_margin > hero.platform.rect.right:
         hero.platform = None
 
 
