@@ -1,9 +1,10 @@
 # TODO: Add classes: Board
 # TODO: Add statistics
+# TODO: Implement removal of fulfilled tasks and starting from the first task line if hero falls
 
 import pygame
 import sys
-from sl_functions import update_screen
+from upper_level_functions import update_screen
 from settings import Settings
 from hero import Hero
 from fixed_object import FixedObject
@@ -38,7 +39,7 @@ class Spiellern:
         # add hero and fixed objects
         self.hero = Hero(self)
         self.rock = FixedObject(self, 'rock')
-        self.task = Task(self, 1)
+        self.task_list = [Task(self, 1),]
 
         # add clock to maintain the number of frames per second
         self.clock = pygame.time.Clock()

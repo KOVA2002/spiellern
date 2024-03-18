@@ -1,6 +1,6 @@
-from pygame.color import THECOLORS
-import pygame
 from random import randint
+from cloud import Cloud
+
 
 # Hero auxiliary functions
 def find_surface_below(hero) -> None:
@@ -15,7 +15,11 @@ def find_surface_below(hero) -> None:
             hero.fallen_wait = hero.fallen_waiting_frames
             hero.reached_falling_speed = hero.falling_speed
             hero.falling_speed = 3
+            # if the found surface is a cloud, then mark the current task resolved
+            if type(surface.owner_object) is Cloud:
+                surface.owner_object.task.resolved = True
             break
+
 
 def check_platform(hero) -> None:
 
@@ -45,13 +49,3 @@ def get_random_task() -> tuple:
     placeholder = ("Bild", (("der", False), ("das", True), ("die", False)))
     # TODO: Implement getting the task from the yaml file.
     return placeholder
-
-
-# general
-def update_screen(game) -> None:
-
-    game.screen.blit(game.settings.bg_image, (0, 0))
-    pygame.draw.rect(game.screen, (255, 0, 250), game.surface.rect, 0)
-    game.rock.blitme()
-    game.task.update()
-    game.hero.blitme()

@@ -5,7 +5,7 @@ from surface import Surface
 
 class Cloud(Sprite):
 
-    def __init__(self, game, cloud_type: str, line_number: int, cloud_text: str, true_cloud: bool):
+    def __init__(self, game, task, cloud_type: str, line_number: int, cloud_text: str, true_cloud: bool):
 
         super().__init__()
         self.screen = game.screen
@@ -17,6 +17,8 @@ class Cloud(Sprite):
         self.true_answer = true_cloud
         self.moving_direction = 'left'
         self.shift = game.settings.cloud_surface_shift
+        self.task = task
+
         try:
             if cloud_type in self.supported_types:
                 self.image = pygame.image.load(f'img/clouds/{cloud_type}.png')
@@ -31,7 +33,7 @@ class Cloud(Sprite):
 
         # Every new object appears on specified coordinates
         self.rect.left = self.screen_rect.right - 50
-        self.rect.y = game.settings.screen_height - 100 - (200*line_number)
+        self.rect.y = game.settings.screen_height - 100 - (150*line_number)
 
         # TODO: Rewrite the code below
         if self.true_answer:
@@ -45,7 +47,19 @@ class Cloud(Sprite):
     def update(self):
         """"""
 
-        self.rect.x -= self.cloud_speed
+        if self.task.resolved:
+            if self.moving_direction == 'left':
+                if self.rect.x > self.screen_rect.x:
+                    self.rect.x -= self.cloud_speed
+                else:
+                    self.moving_direction = 'right'
+            else:
+                if self.rect.right < self.screen_rect.right:
+                    self.rect.x += self.cloud_speed
+                else:
+                    self.moving_direction = 'left'
+        else:
+            self.rect.x -= self.cloud_speed
         if self.surface:
             self.surface.update_position(self.rect.x+self.shift, self.rect.y + self.surface_depth)
         self.blitme()
