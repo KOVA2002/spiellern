@@ -6,7 +6,10 @@ from random import randint
 def find_surface_below(hero) -> None:
 
     for surface in hero.all_surfaces:
-        if hero.rect.colliderect(surface.rect) and hero.rect.right-hero.fall_margin >= surface.rect.left and hero.rect.left+hero.fall_margin <= surface.rect.right:
+        if hero.rect.colliderect(surface.rect) \
+                and hero.rect.right-hero.fall_margin >= surface.rect.left \
+                and hero.rect.left+hero.fall_margin <= surface.rect.right \
+                and hero.rect.bottom <= surface.rect.bottom:
             hero.platform = surface
             hero.falling = False
             hero.fallen_wait = hero.fallen_waiting_frames

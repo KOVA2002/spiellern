@@ -1,6 +1,7 @@
 import pygame
 from math import floor
 from sl_functions import check_moving_lr_in_air, check_platform, find_surface_below
+from cloud import Cloud
 
 
 class Hero:
@@ -162,12 +163,19 @@ class Hero:
         # updating left/right movement flags
         elif self.moving_left and self.moving_right:
             self.stop_moving_right = True
+        #TODO: Implement running being on moving platform
         elif self.moving_right and not self.rect.right >= self.screen_rect.right:
             self.rect.x += self.running_speed
             self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
         elif self.moving_left and not self.rect.x <= 0:
             self.rect.x -= self.running_speed
             self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
+        # standing on moving platform
+        elif self.platform and type(self.platform.owner_object) is Cloud:
+            if self.platform.owner_object.moving_direction == 'left' and not self.rect.x <= 0:
+                self.rect.x -= self.platform.owner_object.cloud_speed
+            elif self.platform.owner_object.moving_direction == 'right' and not self.rect.right >= self.screen_rect.right:
+                self.rect.x += self.platform.owner_object.cloud_speed
         # updating image
         if self.img_upd_counter == self.img_upd_rate-1 \
                 or self.stop_moving_right or self.stop_moving_left \

@@ -31,7 +31,7 @@ class Cloud(Sprite):
 
         # Every new object appears on specified coordinates
         self.rect.left = self.screen_rect.right - 50
-        self.rect.y = game.settings.screen_height - 100 - (250*line_number)
+        self.rect.y = game.settings.screen_height - 100 - (200*line_number)
 
         # TODO: Rewrite the code below
         if self.true_answer:
