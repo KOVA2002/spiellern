@@ -27,3 +27,7 @@ class Settings:
         self.hero_falling_high_speed_from = 8
         self.hero_fallen_middle_waiting_from = 8
         self.hero_fallen_long_waiting_from = 10
+
+        # cloud
+        self.cloud_speed = 2
+        self.cloud_types = ['cloud1', 'cloud2', 'cloud3', 'cloud4', 'cloud5']

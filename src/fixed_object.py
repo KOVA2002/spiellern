@@ -4,25 +4,25 @@ from surface import Surface
 
 class FixedObject:
 
-    def __init__(self, game, type):
+    def __init__(self, game, obj_type):
         """A class for immovable objects"""
         self.screen = game.screen
         self.screen_rect = game.screen.get_rect()
-        self.type = type
+        self.obj_type = obj_type
         self.supported_types = ['rock', 'water']
 
         try:
-            if type == 'rock':
+            if self.obj_type == 'rock':
                 self.image = pygame.image.load('img/fixed_objects/rock1.png')
                 self.surface_depth = 50
             else:
-                raise ValueError(f"Type should be in {self.supported_types}")
+                raise ValueError(f'Object type must be in {self.supported_types}')
         except ValueError as e:
             print('Error: ', e)
 
         self.rect = self.image.get_rect()
 
-        # Every new hero starts from the specified coordinates
+        # Every new object appears on specified coordinates
         self.rect.midbottom = self.screen_rect.midbottom
         self.rect.left = self.screen_rect.x
 

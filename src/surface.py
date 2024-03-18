@@ -12,5 +12,5 @@ class Surface:
 
     def update_position(self, x, y):
 
-        self.x = x
-        self.y = y
+        self.rect.x = x
+        self.rect.y = y

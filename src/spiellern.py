@@ -9,6 +9,7 @@ from settings import Settings
 from hero import Hero
 from fixed_object import FixedObject
 from surface import Surface
+from task import Task
 
 
 class Spiellern:
@@ -38,6 +39,7 @@ class Spiellern:
         # add hero and fixed objects
         self.hero = Hero(self)
         self.rock = FixedObject(self, 'rock')
+        self.task = Task(self, 1)
 
         # add clock to maintain the number of frames per second
         self.clock = pygame.time.Clock()
