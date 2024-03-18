@@ -15,6 +15,8 @@ class Cloud(Sprite):
         self.supported_types = game.settings.cloud_types
         self.text = cloud_text
         self.true_answer = true_cloud
+        self.moving_direction = 'left'
+        self.shift = game.settings.cloud_surface_shift
         try:
             if cloud_type in self.supported_types:
                 self.image = pygame.image.load(f'img/clouds/{cloud_type}.png')
@@ -34,7 +36,7 @@ class Cloud(Sprite):
         # TODO: Rewrite the code below
         if self.true_answer:
             # Adding surface object
-            self.surface = Surface((self.rect.x, self.rect.y + self.surface_depth), (self.rect.width, 10), self)
+            self.surface = Surface((self.rect.x+self.shift, self.rect.y + self.surface_depth), (game.settings.cloud_surface_width, game.settings.surface_height), self)
             # adding the newly created object to the list containing all surfaces of the game
             game.all_surfaces.append(self.surface)
         else:
@@ -45,7 +47,7 @@ class Cloud(Sprite):
 
         self.rect.x -= self.cloud_speed
         if self.surface:
-            self.surface.update_position(self.rect.x, self.rect.y + self.surface_depth)
+            self.surface.update_position(self.rect.x+self.shift, self.rect.y + self.surface_depth)
         self.blitme()
 
     def blitme(self):

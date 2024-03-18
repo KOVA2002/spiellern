@@ -27,7 +27,7 @@ class FixedObject:
         self.rect.left = self.screen_rect.x
 
         # Adding surface object
-        self.surface = Surface((self.rect.x, self.rect.y+self.surface_depth), (self.rect.width, 10), self)
+        self.surface = Surface((self.rect.x, self.rect.y+self.surface_depth), (self.rect.width, game.settings.surface_height), self)
         # adding the newly created object to the list containing all surfaces of the game
         game.all_surfaces.append(self.surface)
 
