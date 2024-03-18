@@ -1,6 +1,6 @@
 import pygame
 from math import floor
-from sl_functions import find_surface_below, check_platform
+from sl_functions import check_moving_lr_in_air, check_platform, find_surface_below
 
 
 class Hero:
@@ -144,30 +144,28 @@ class Hero:
             self.falling = True
             self.rect.y += floor(self.falling_speed)
             self.falling_speed += self.falling_acceleration_rate
-            if self.moving_left:
-                self.rect.x -= self.left_right_shift_in_air
-            if self.moving_right:
-                self.rect.x += self.left_right_shift_in_air
+            # moving left-right while in air
+            check_moving_lr_in_air(self)
+
         # jumping
         elif self.jumping:
             if self.jumping_frames == 0:
                 self.jumping_frames = self.jumping_frames_default
                 self.platform = None
             self.rect.y -= self.jumping_vertical_velocity
-            if self.moving_left:
-                self.rect.x -= self.left_right_shift_in_air
-            if self.moving_right:
-                self.rect.x += self.left_right_shift_in_air
             self.jumping_frames -= 1
             if self.jumping_frames == 0:
                 self.jumping = None
+            # moving left-right while in air
+            check_moving_lr_in_air(self)
+
         # updating left/right movement flags
         elif self.moving_left and self.moving_right:
             self.stop_moving_right = True
-        elif self.moving_right:
+        elif self.moving_right and not self.rect.right >= self.screen_rect.right:
             self.rect.x += self.running_speed
             self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
-        elif self.moving_left:
+        elif self.moving_left and not self.rect.x <= 0:
             self.rect.x -= self.running_speed
             self.img_upd_counter = (self.img_upd_counter + 1) % self.img_upd_rate
         # updating image

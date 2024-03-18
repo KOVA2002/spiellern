@@ -1,5 +1,4 @@
-# TODO: Add classes: Cloud, TaskBoard, LearningData
-# TODO: Restrict hero from moving out of the screen
+# TODO: Add classes: Board
 # TODO: Add statistics
 
 import pygame

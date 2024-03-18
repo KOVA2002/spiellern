@@ -21,6 +21,13 @@ def check_platform(hero) -> None:
         hero.platform = None
 
 
+def check_moving_lr_in_air(hero):
+    if hero.moving_left and not hero.rect.x <= 0:
+        hero.rect.x -= hero.left_right_shift_in_air
+    if hero.moving_right and not hero.rect.right >= hero.screen_rect.right:
+        hero.rect.x += hero.left_right_shift_in_air
+
+
 # task related functions
 def get_cloud_type(task):
     """"""
