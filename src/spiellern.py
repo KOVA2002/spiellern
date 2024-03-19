@@ -10,6 +10,7 @@ from hero import Hero
 from fixed_object import FixedObject
 from surface import Surface
 from task import Task
+from board import Board
 
 
 class Spiellern:
@@ -38,6 +39,7 @@ class Spiellern:
 
         # add hero and fixed objects
         self.hero = Hero(self)
+        self.board = Board(self)
         self.rock = FixedObject(self, 'rock')
         self.floating_rock = FixedObject(self, 'floating_rock')
         self.finish_flag = FixedObject(self, 'flag')

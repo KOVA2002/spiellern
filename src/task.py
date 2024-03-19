@@ -14,6 +14,7 @@ class Task:
         self.answers_count = len(self.answers)
         self.line_number = line_number
         self.game = game
+        self.game.board.update_text(self.task_text)
         self.resolved = False
 
     def drop_false_clouds(self):

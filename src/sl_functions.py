@@ -46,6 +46,28 @@ def get_cloud_type(task):
 def get_random_task() -> tuple:
     """Get a random task from the existing data"""
 
-    placeholder = ("Bild", (("der", False), ("das", True), ("die", False)))
+    placeholders = [("Bild", (("der", False), ("das", True), ("die", False))),
+                    ("Fisch", (("der", True), ("das", False), ("die", False))),
+                    ("Banane", (("der", False), ("das", False), ("die", True))),
+                    ("Wein", (("der", True), ("das", False), ("die", False))),
+                    ("Zucker", (("der", True), ("das", False), ("die", False))),
+                    ("Fenster", (("der", False), ("das", True), ("die", False))),
+                    ("Kartoffel", (("der", False), ("das", False), ("die", True))),
+                    ("Wurst", (("der", False), ("das", False), ("die", True))),
+                    ("Milch", (("der", False), ("das", False), ("die", True))),
+                    ("Butter", (("der", False), ("das", False), ("die", True))),
+                    ("Zitrone", (("der", False), ("das", False), ("die", True))),
+                    ("Tasse", (("der", False), ("das", False), ("die", True))),
+                    ("Suppe", (("der", False), ("das", False), ("die", True))),
+                    ("Brot", (("der", False), ("das", True), ("die", False))),
+                    ("Bier", (("der", False), ("das", True), ("die", False))),
+                    ("Mineralwasser", (("der", False), ("das", True), ("die", False))),
+                    ("Kaffee", (("der", True), ("das", False), ("die", False))),
+                    ("Fleisch", (("der", False), ("das", True), ("die", False))),
+                    ("Saft", (("der", True), ("das", False), ("die", False))),
+                    ("Teller", (("der", True), ("das", False), ("die", False))),
+
+                    ]
+    placeholder = placeholders[randint(0, len(placeholders)-1)]
     # TODO: Implement getting the task from the yaml file.
     return placeholder
