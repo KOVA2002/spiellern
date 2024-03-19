@@ -1,5 +1,6 @@
 import pygame
 from pygame.sprite import Sprite
+from pygame.color import THECOLORS
 from surface import Surface
 
 
@@ -35,6 +36,11 @@ class Cloud(Sprite):
         self.rect.left = self.screen_rect.right - 50
         self.rect.y = game.settings.screen_height - 100 - (150*line_number)
 
+        # Add Font object to the cloud
+        self.font = pygame.font.SysFont('couriernew', 40, bold=True, italic=True)
+        self.font_text = self.font.render(str(self.text), True, THECOLORS['green1'])
+        self.font_position = (self.rect.x, self.rect.y)
+
         # TODO: Rewrite the code below
         if self.true_answer:
             # Adding surface object
@@ -62,12 +68,15 @@ class Cloud(Sprite):
             self.rect.x -= self.cloud_speed
         if self.surface:
             self.surface.update_position(self.rect.x+self.shift, self.rect.y + self.surface_depth)
+        self.font_position = (self.rect.centerx - self.font_text.get_width()/2, self.rect.bottom)
         self.blitme()
 
     def blitme(self):
         """Draw object"""
 
         self.screen.blit(self.image, self.rect)
-        if self.surface:
-            # TODO: Remove this line after jumping and landing on surface is implemented
-            pygame.draw.rect(self.screen, (255, 0, 250), self.surface.rect, 0)
+        self.screen.blit(self.font_text, self.font_position)
+        # TODO: Remove this line after jumping and landing on surface is implemented and debugged
+        #if self.surface:
+            #pygame.draw.rect(self.screen, (255, 0, 250), self.surface.rect, 0)
+

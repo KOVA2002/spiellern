@@ -4,10 +4,10 @@ from pygame.color import THECOLORS
 pygame.init()
 screen = pygame.display.set_mode((1200, 800))
 screen.fill(THECOLORS['white'])
-font = pygame.font.SysFont('couriernew', 40)
-text = font.render(str('HELLO'), True, THECOLORS['green'])
-
-
+font = pygame.font.SysFont('couriernew', 40, italic=True)
+text = font.render(str('HELLO'), True, THECOLORS['purple4'])
+#print(THECOLORS.keys())
+print(text.get_width())
 while True:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:

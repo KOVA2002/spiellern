@@ -39,6 +39,8 @@ class Spiellern:
         # add hero and fixed objects
         self.hero = Hero(self)
         self.rock = FixedObject(self, 'rock')
+        self.floating_rock = FixedObject(self, 'floating_rock')
+        self.finish_flag = FixedObject(self, 'flag')
         self.task_list = [Task(self, 1),]
 
         # add clock to maintain the number of frames per second
