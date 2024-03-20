@@ -68,6 +68,14 @@ class Cloud(Sprite):
             self.rect.x -= self.cloud_speed
         if self.surface:
             self.surface.update_position(self.rect.x+self.shift, self.rect.y + self.surface_depth)
+            if self.task.resolved:
+                if self.text == 'der':
+                    clr = 'blue'
+                elif self.text == 'die':
+                    clr = 'pink'
+                else:
+                    clr = 'yellow'
+                self.font_text = self.font.render(str(self.text + ' ' + self.task.task_text), True, THECOLORS[clr])
         self.font_position = (self.rect.centerx - self.font_text.get_width()/2, self.rect.bottom)
         self.blitme()
 

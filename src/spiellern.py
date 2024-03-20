@@ -1,7 +1,6 @@
-# TODO: Add translation and the answer text on the cloud when the task is resolved
 # TODO: Refactor the Cloud and Task classes
 # TODO: Add statistics, i.e. the number of correctly identified items vs the number of mistakes; output color-coded items
-# TODO: Finish the level once the hero reaches the flag and display stats
+# TODO: Finish the level once the hero reaches the flag; then display stats
 # TODO: Implement start menu with options where the user can choose a topic to learn; start the game when the user presses a specific key
 # TODO: Add more learning data
 

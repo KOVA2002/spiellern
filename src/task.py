@@ -14,7 +14,7 @@ class Task:
         self.answers_count = len(self.answers)
         self.line_number = line_number
         self.game = game
-        self.game.board.update_text(self.task_text)
+        self.game.board.update_text(self.task_text, f'({self.translation})')
         self.resolved = False
         self.answer_sound = pygame.mixer.Sound(self.answer_sound_location)
 
