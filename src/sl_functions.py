@@ -28,6 +28,17 @@ def check_platform(hero) -> None:
         hero.platform = None
 
 
+def check_approaching_surface(hero) -> int:
+    """Return the distance to the closest surface below"""
+    distances_to_below_surfaces = []
+    for surface in hero.all_surfaces:
+        if hero.rect.bottom <= surface.rect.y \
+                and hero.rect.right-hero.fall_margin >= surface.rect.left \
+                and hero.rect.left+hero.fall_margin <= surface.rect.right:
+            distances_to_below_surfaces.append(surface.rect.y - hero.rect.bottom)
+    return min(distances_to_below_surfaces)+1
+
+
 def check_moving_lr_in_air(hero):
     if hero.moving_left and not hero.rect.x <= 0:
         hero.rect.x -= hero.left_right_shift_in_air

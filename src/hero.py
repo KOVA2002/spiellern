@@ -1,6 +1,6 @@
 import pygame
 from math import floor
-from sl_functions import check_moving_lr_in_air, check_platform, find_surface_below
+from sl_functions import check_approaching_surface, check_moving_lr_in_air, check_platform, find_surface_below
 from cloud import Cloud
 
 
@@ -143,7 +143,11 @@ class Hero:
         # falling
         if not self.platform and not self.jumping:
             self.falling = True
-            self.rect.y += floor(self.falling_speed)
+            distance_to_approaching_surface = check_approaching_surface(self)
+            if distance_to_approaching_surface < floor(self.falling_speed):
+                self.rect.y += distance_to_approaching_surface
+            else:
+                self.rect.y += floor(self.falling_speed)
             self.falling_speed += self.falling_acceleration_rate
             # moving left-right while in air
             check_moving_lr_in_air(self)

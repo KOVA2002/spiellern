@@ -46,7 +46,7 @@ class Task:
 
                 cloud_type = get_cloud_type(self)
                 self.answer_clouds.add(Cloud(self.game, self, cloud_type, self.line_number, answer[0], answer[1]))
-                self.waiting_frames = 500
+                self.waiting_frames = 300
                 for cloud in self.answer_clouds.copy():
                     if cloud.rect.x <= 0:
                         self.answer_clouds.remove(cloud)
