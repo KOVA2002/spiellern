@@ -6,7 +6,7 @@ class Task:
 
     def __init__(self, game, line_number):
 
-        self.task_text, self.answers, self.translation = get_random_task()
+        self.task_text, self.answers, self.translation, self.answer_sound_location = get_random_task()
         self.answer_clouds = pygame.sprite.Group()
         self.cloud_types = game.settings.cloud_types
         self.waiting_frames = 100
@@ -16,6 +16,7 @@ class Task:
         self.game = game
         self.game.board.update_text(self.task_text)
         self.resolved = False
+        self.answer_sound = pygame.mixer.Sound(self.answer_sound_location)
 
     def drop_false_clouds(self):
         """Drop all false clouds from the list"""
@@ -30,6 +31,7 @@ class Task:
             if cloud.surface:
                 self.game.all_surfaces.remove(cloud.surface)
             self.answer_clouds.remove(cloud)
+            self.answer_sound.stop()
 
     def update(self):
 

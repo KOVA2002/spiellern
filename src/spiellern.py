@@ -1,3 +1,4 @@
+# TODO: Add translation and the answer text on the cloud when the task is resolved
 # TODO: Refactor the Cloud and Task classes
 # TODO: Add statistics, i.e. the number of correctly identified items vs the number of mistakes; output color-coded items
 # TODO: Finish the level once the hero reaches the flag and display stats
@@ -21,6 +22,7 @@ class Spiellern:
     def __init__(self):
         """Create game resources"""
         pygame.init()
+        pygame.mixer.init()
 
         # add screen and setting objects
         self.screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
@@ -31,6 +33,11 @@ class Spiellern:
         self.settings.screen_width = self.screen.get_rect().width
         self.settings.screen_height = self.screen.get_rect().height
         self.settings.bg_image = pygame.transform.scale(self.settings.bg_image, (self.settings.screen_width, self.settings.screen_height))
+
+        # adjust background music; play it in unlimited loop
+        self.bg_music = pygame.mixer.Sound('sound/Rosamunde.mp3')
+        self.bg_music.set_volume(0.05)
+        self.bg_music.play(loops=-1)
 
         # introducing a list for storing all surfaces in the game
         self.all_surfaces = []

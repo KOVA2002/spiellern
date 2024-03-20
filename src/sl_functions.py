@@ -18,6 +18,7 @@ def find_surface_below(hero) -> None:
             # if the found surface is a cloud, then mark the current task resolved
             if type(surface.owner_object) is Cloud:
                 surface.owner_object.task.resolved = True
+                surface.owner_object.task.answer_sound.play()
             break
 
 
@@ -57,26 +58,26 @@ def get_cloud_type(task):
 def get_random_task() -> tuple:
     """Get a random task from the existing data"""
 
-    placeholders = [("Bild", (("der", False), ("das", True), ("die", False)), "picture"),
-                    ("Fisch", (("der", True), ("das", False), ("die", False)), "fish"),
-                    ("Banane", (("der", False), ("das", False), ("die", True)), "banana"),
-                    ("Wein", (("der", True), ("das", False), ("die", False)), "wine"),
-                    ("Zucker", (("der", True), ("das", False), ("die", False)), "sugar"),
-                    ("Fenster", (("der", False), ("das", True), ("die", False)), "window"),
-                    ("Kartoffel", (("der", False), ("das", False), ("die", True)), "potato"),
-                    ("Wurst", (("der", False), ("das", False), ("die", True)), "sausage"),
-                    ("Milch", (("der", False), ("das", False), ("die", True)), "milk"),
-                    ("Butter", (("der", False), ("das", False), ("die", True)), "butter"),
-                    ("Zitrone", (("der", False), ("das", False), ("die", True)), "lemon"),
-                    ("Tasse", (("der", False), ("das", False), ("die", True)), "cup"),
-                    ("Suppe", (("der", False), ("das", False), ("die", True)), "soup"),
-                    ("Brot", (("der", False), ("das", True), ("die", False)), "bread"),
-                    ("Bier", (("der", False), ("das", True), ("die", False)), "beer"),
-                    ("Mineralwasser", (("der", False), ("das", True), ("die", False)), "Mineral water"),
-                    ("Kaffee", (("der", True), ("das", False), ("die", False)), "coffee"),
-                    ("Fleisch", (("der", False), ("das", True), ("die", False)), "meat"),
-                    ("Saft", (("der", True), ("das", False), ("die", False)), "juice"),
-                    ("Teller", (("der", True), ("das", False), ("die", False)), "plate"),
+    placeholders = [("Bild", (("der", False), ("das", True), ("die", False)), "picture", 'sound/das_Bild.mp3'),
+                    ("Fisch", (("der", True), ("das", False), ("die", False)), "fish", 'sound/der_Fisch.mp3'),
+                    ("Banane", (("der", False), ("das", False), ("die", True)), "banana", 'sound/die_Banane.mp3'),
+                    ("Wein", (("der", True), ("das", False), ("die", False)), "wine", 'sound/der_Wein.mp3'),
+                    ("Zucker", (("der", True), ("das", False), ("die", False)), "sugar", 'sound/der_Zucker.mp3'),
+                    ("Fenster", (("der", False), ("das", True), ("die", False)), "window", 'sound/das_Fenster.mp3'),
+                    ("Kartoffel", (("der", False), ("das", False), ("die", True)), "potato", 'sound/die_Kartoffel.mp3'),
+                    ("Wurst", (("der", False), ("das", False), ("die", True)), "sausage", 'sound/die_Wurst.mp3'),
+                    ("Milch", (("der", False), ("das", False), ("die", True)), "milk", 'sound/die_Milch.mp3'),
+                    ("Butter", (("der", False), ("das", False), ("die", True)), "butter", 'sound/die_Butter.mp3'),
+                    ("Zitrone", (("der", False), ("das", False), ("die", True)), "lemon", 'sound/die_Zitrone.mp3'),
+                    ("Tasse", (("der", False), ("das", False), ("die", True)), "cup", 'sound/die_Tasse.mp3'),
+                    ("Suppe", (("der", False), ("das", False), ("die", True)), "soup", 'sound/die_Suppe.mp3'),
+                    ("Brot", (("der", False), ("das", True), ("die", False)), "bread", 'sound/das_Brot.mp3'),
+                    ("Bier", (("der", False), ("das", True), ("die", False)), "beer", 'sound/das_Bier.mp3'),
+                    ("Mineralwasser", (("der", False), ("das", True), ("die", False)), "Mineral water", 'sound/das_Mineralwasser.mp3'),
+                    ("Kaffee", (("der", True), ("das", False), ("die", False)), "coffee", 'sound/der_Kaffee.mp3'),
+                    ("Fleisch", (("der", False), ("das", True), ("die", False)), "meat", 'sound/das_Fleisch.mp3'),
+                    ("Saft", (("der", True), ("das", False), ("die", False)), "juice", 'sound/der_Saft.mp3'),
+                    ("Teller", (("der", True), ("das", False), ("die", False)), "plate", 'sound/der_Teller.mp3'),
                     ]
     placeholder = placeholders[randint(0, len(placeholders)-1)]
     # TODO: Implement getting the task from the yaml file.
