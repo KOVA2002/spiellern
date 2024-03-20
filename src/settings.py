@@ -32,7 +32,7 @@ class Settings:
         self.surface_height = 10
 
         # cloud
-        self.cloud_speed = 1
+        self.cloud_speed = 2
         self.cloud_types = ['cloud1', 'cloud2', 'cloud3', 'cloud4', 'cloud5']
         self.cloud_surface_width = 197
         self.cloud_surface_shift = 15

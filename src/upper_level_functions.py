@@ -4,14 +4,20 @@ from task import Task
 def update_task_list(game):
     """"""
 
-    #TODO: remove resolved tasks once hero moves up
-    #TODO: start from the first line if hero falls
-    #TODO: restrict number of possible tasks to 6
-    task_list = game.task_list
-    if task_list[-1].resolved:
-        prev_number = task_list[-1].line_number
-        task_list.append(Task(game, prev_number+1))
-    for t in task_list:
+    if game.task_list[-1].resolved:
+        prev_number = game.task_list[-1].line_number
+        if prev_number < 6:
+            game.task_list.append(Task(game, prev_number+1))
+        if len(game.task_list) > 2:
+            game.task_list[-3].drop_all_clouds()
+            del game.task_list[-3]
+    if len(game.task_list) > 1 \
+            and len(game.task_list[-2].answer_clouds.sprites()) > 0 \
+            and game.hero.rect.bottom > game.task_list[-2].answer_clouds.sprites()[0].rect.bottom+10:
+        for t in game.task_list:
+            t.drop_all_clouds()
+        game.task_list = [Task(game, 1),]
+    for t in game.task_list:
         t.update()
 
 # general

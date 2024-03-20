@@ -6,7 +6,7 @@ class Task:
 
     def __init__(self, game, line_number):
 
-        self.task_text, self.answers = get_random_task()
+        self.task_text, self.answers, self.translation = get_random_task()
         self.answer_clouds = pygame.sprite.Group()
         self.cloud_types = game.settings.cloud_types
         self.waiting_frames = 100
@@ -23,6 +23,13 @@ class Task:
         for cloud in self.answer_clouds.copy():
             if not cloud.surface:
                 self.answer_clouds.remove(cloud)
+
+    def drop_all_clouds(self):
+
+        for cloud in self.answer_clouds.copy():
+            if cloud.surface:
+                self.game.all_surfaces.remove(cloud.surface)
+            self.answer_clouds.remove(cloud)
 
     def update(self):
 
