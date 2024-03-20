@@ -38,7 +38,7 @@ class Cloud(Sprite):
 
         # Add Font object to the cloud
         self.font = pygame.font.SysFont('couriernew', 40, bold=True, italic=True)
-        self.font_text = self.font.render(str(self.text), True, THECOLORS['green1'])
+        self.font_text = self.font.render(str(self.text), True, THECOLORS['green2'])
         self.font_position = (self.rect.x, self.rect.y)
 
         # TODO: Rewrite the code below
