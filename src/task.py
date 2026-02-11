@@ -1,3 +1,4 @@
+import os
 import pygame
 from cloud import Cloud
 from sl_functions import get_cloud_type, get_random_task
@@ -6,7 +7,9 @@ class Task:
 
     def __init__(self, game, line_number):
 
-        self.task_text, self.answers, self.translation, self.answer_sound_location = get_random_task()
+        task = get_random_task()
+        self.task_text, self.answers, self.translation, self.answer_sound_location = task["task"], task["answer_options"], task["translation"], task["sound_path"]
+        
         self.answer_clouds = pygame.sprite.Group()
         self.cloud_types = game.settings.cloud_types
         self.waiting_frames = 100
@@ -16,8 +19,11 @@ class Task:
         self.game = game
         self.game.board.update_text(self.task_text, f'({self.translation})')
         self.resolved = False
-        self.answer_sound = pygame.mixer.Sound(self.answer_sound_location)
-
+        if os.path.exists(self.answer_sound_location):
+            self.answer_sound = pygame.mixer.Sound(self.answer_sound_location)
+        else:
+            self.answer_sound = pygame.mixer.Sound('sound/a-ha.mp3')
+        
     def drop_false_clouds(self):
         """Drop all false clouds from the list"""
 
